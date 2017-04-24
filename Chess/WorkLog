@@ -1,0 +1,47 @@
+Work Log
+
+Piece Format
+Color -> Directions {1,-1}
+currentBoard -> Pointer towards board
+pieceType -> Check what type of piece it is
+
+Board Format
+lastMove -> Implemented for en passent
+getPiece -> Returns piece at location
+setPiece -> Sets value at location
+removePiece -> Removes value from current location
+
+Functions
+- Constructor(Color,currentBoard,pieceType)
+- Move(Move)
+- Abstract isValid(Move)
+
+
+TODO List
+- Test Rook _isValidRookMove()
+- Test Queen _isValidQueenMove()
+- Test King _isValidKingMove() -> Also move becuase of sketchy stuff
+- Add layout
+- Add layout file
+- Add general gameplay
+- Add check for check and checkmate
+
+April 20,2017
+- Pawn Class completed
+- Framework Rework enum removed and replaced with Abstract Interface
+- Tested and working
+
+April 21, 2017
+- Move Piece -> LastMove only stored in Board
+- En Passent rules fixed
+- Pawn take piece exceptions added
+- Added check for move validity
+
+April 22, 2017
+- Bishop Move Piece Finished
+- Knight Class Finished
+- Rook Class Finished -> Not Tested
+- Queen Class Finished -> Not Tested
+- Changed Board.board to private
+- Added allMoves
+- Tested and working
