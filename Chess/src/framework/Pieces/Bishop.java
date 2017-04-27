@@ -6,9 +6,13 @@ import framework.PieceName;
 
 public class Bishop extends Piece {
 
-	public Bishop(int color, Board board, PieceName name) {
+	public Bishop(PieceName name, int color, Board board) {
 		super(name, color, board);
 		// TODO Auto-generated constructor stub
+	}
+
+	public Bishop(PieceName name, int color, Board board, int x, int y, boolean moved) throws Exception {
+		super(name, color, board, x, y, moved);
 	}
 
 	@Override

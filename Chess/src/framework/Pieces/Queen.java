@@ -6,9 +6,13 @@ import framework.PieceName;
 
 public class Queen extends Piece {
 
-	protected Queen(int color, Board board, PieceName name) {
+	public Queen(PieceName name, int color, Board board) {
 		super(name, color, board);
 		// TODO Auto-generated constructor stub
+	}
+
+	public Queen(PieceName name, int color, Board board, int x, int y, boolean moved) throws Exception {
+		super(name, color, board, x, y, moved);
 	}
 
 	@Override

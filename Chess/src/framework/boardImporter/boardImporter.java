@@ -11,30 +11,38 @@ import framework.Pieces.Pawn;
 import framework.Pieces.Piece;
 
 public class boardImporter {
-	public static Board boardImporter(String path) throws IOException {
+	public static Board importer(String path) throws Exception {
 		Board b = new Board();
 		BufferedReader br = new BufferedReader(new FileReader(new File(path)));
 		String temp;
 		String[] split;
 		while ((temp = br.readLine()) != null) {
 			split = temp.split(" ");
+			int color = Integer.parseInt(split[1]);
+			int x = Integer.parseInt(split[2]);
+			int y = Integer.parseInt(split[3]);
 			Piece a;
 			switch (split[0]) {
 			case "PAWN":
-				a=new Pawn(color, board, name)
+				a = new Pawn(PieceName.PAWN, color, b, x, y, false);
 				break;
 			case "KING":
+				a = new Pawn(PieceName.PAWN, color, b, x, y, false);
 				break;
 			case "QUEEN":
+				a = new Pawn(PieceName.PAWN, color, b, x, y, false);
 				break;
 			case "BISHOP":
+				a = new Pawn(PieceName.PAWN, color, b, x, y, false);
 				break;
 			case "KNIGHT":
+				a = new Pawn(PieceName.PAWN, color, b, x, y, false);
 				break;
 			case "ROOK":
+				a = new Pawn(PieceName.PAWN, color, b, x, y, false);
 				break;
 			default:
-				break;
+				throw new Exception("Illegal piece");
 			}
 		}
 		return b;

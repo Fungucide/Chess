@@ -22,11 +22,14 @@ public abstract class Piece {
 		this.TYPE = name;
 	}
 
-	protected Piece(PieceName name, int color, Board board, int x, int y, boolean moved) {
+	protected Piece(PieceName name, int color, Board board, int x, int y, boolean moved) throws Exception {
 		this.COLOR = color;
 		currentBoard = board;
 		this.TYPE = name;
 		this.moved = moved;
+		if (!board.setPiece(this, x, y)) {
+			throw new Exception("Illegal Placement of piece");
+		}
 	}
 
 	public boolean move(Move m) throws Exception {
@@ -34,6 +37,8 @@ public abstract class Piece {
 			currentBoard.lastMove = m;
 			currentBoard.setPiece(null, m.startX, m.startY);
 			if (currentBoard.getPiece(m.endX, m.endY) != null) {
+				currentBoard.TakenRefrence.get(this.COLOR * -1).add(currentBoard.getPiece(m.endX, m.endY));
+				currentBoard.TeamRefrence.get(this.COLOR * -1).remove(currentBoard.getPiece(m.endX, m.endY));
 				currentBoard.getPiece(m.endX, m.endY).valid = false;
 				currentBoard.getPiece(m.endX, m.endY).x = -1;
 				currentBoard.getPiece(m.endX, m.endY).y = -1;
