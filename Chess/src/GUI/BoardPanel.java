@@ -6,6 +6,8 @@ import java.io.IOException;
 import javax.swing.JPanel;
 
 import framework.Board;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public class BoardPanel extends JPanel {
 
@@ -14,7 +16,7 @@ public class BoardPanel extends JPanel {
 	 */
 	public BoardPanel(Board b) {
 		setLayout(new BorderLayout(0, 0));
-		BoardCanvas bc = new BoardCanvas();
+		BoardCanvas bc = new BoardCanvas(b);
 		add(bc,BorderLayout.CENTER);
 
 		

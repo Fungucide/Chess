@@ -4,6 +4,8 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.image.CropImageFilter;
 import java.awt.image.FilteredImageSource;
 import java.awt.image.ImageFilter;
@@ -20,28 +22,35 @@ public class BoardCanvas extends Canvas {
 	HashMap<PieceName, Image> whitePicRefrence = new HashMap<>();
 	HashMap<PieceName, Image> blackPicRefrence = new HashMap<>();
 	HashMap<Integer, HashMap<PieceName, Image>> picRefrence = new HashMap<>();
+	int squareSize;
 
-	public BoardCanvas() {
+	public BoardCanvas(Board b) {
 		// TODO Auto-generated constructor stub
-		try {
-			getImage();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		this.b = b;
+		addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent arg0) {
+				try {
+					getImage();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
-	public void setBoard(Board b) {
-		this.b = b;
-	}
 
 	public void getImage() throws IOException {
 		String map = "KQBNRP";
+		squareSize = Math.min(this.getHeight() / 15, this.getWidth() / 9);
 		for (int i = 0; i < map.length(); i++) {
-			Image img = ImageIO.read(new File("Resources\\Pictures\\Pieces\\White " + map.charAt(i) + ".png"));
+			Image img = ImageIO.read(new File("Resources\\Pictures\\Pieces\\White " + map.charAt(i) + ".png"))
+					.getScaledInstance(squareSize, squareSize, Image.SCALE_SMOOTH);
 			whitePicRefrence.put(PieceName.values()[i], img);
 
-			Image img2 = ImageIO.read(new File("Resources\\Pictures\\Pieces\\Black " + map.charAt(i) + ".png"));
+			Image img2 = ImageIO.read(new File("Resources\\Pictures\\Pieces\\Black " + map.charAt(i) + ".png"))
+					.getScaledInstance(squareSize, squareSize, Image.SCALE_SMOOTH);
 			blackPicRefrence.put(PieceName.values()[i], img2);
 		}
 		picRefrence.put(1, whitePicRefrence);
@@ -51,7 +60,6 @@ public class BoardCanvas extends Canvas {
 	@Override
 	public void paint(Graphics g) {
 		// 20 Squares X 8 Squares
-		int squareSize = Math.min(this.getHeight() / 15, this.getWidth() / 9);
 
 		int cx = this.getWidth() / 2;
 		int cy = this.getHeight() / 2;
@@ -76,8 +84,18 @@ public class BoardCanvas extends Canvas {
 		g.drawRect(tx, ty, squareSize * 8, squareSize * 2);
 		tx = cx - 4 * squareSize;
 		ty = (int) (cy + squareSize * 4.5);
+
+		int bx = cx - squareSize * 4;
+		int by = cy - squareSize * 4;
 		g.drawRect(tx, ty, squareSize * 8, squareSize * 2);
-		g.drawImage(picRefrence.get(1).get(PieceName.PAWN), cx, cy, this);
-		g.drawImage(picRefrence.get(1).get(PieceName.BISHOP), cx-100, cy-100, this);
+
+		for (int i = 0; i < 8; i++) {
+			for (int h = 0; h < 8; h++) {
+				b.getPiece(i, h);
+				if (b.getPiece(i, h) != null) {
+					g.drawImage(picRefrence.get(b.getPiece(i, h).COLOR).get(b.getPiece(i, h).TYPE), bx+squareSize*(8-i),by+squareSize*(8-h) , this);
+				}
+			}
+		}
 	}
 }
