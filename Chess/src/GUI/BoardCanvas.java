@@ -2,6 +2,7 @@ package GUI;
 
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ComponentAdapter;
@@ -30,9 +31,13 @@ public class BoardCanvas extends Canvas {
 	HashMap<PieceName, Image> whitePicRefrence = new HashMap<>();
 	HashMap<PieceName, Image> blackPicRefrence = new HashMap<>();
 	HashMap<Integer, HashMap<PieceName, Image>> picRefrence = new HashMap<>();
+	int[][] colored = new int[8][8];
+	ArrayList<Move> show;
 	int squareSize;
 	int cx;
 	int cy;
+	int px = -1;
+	int py = -1;
 
 	public BoardCanvas(Board b) {
 		// TODO Auto-generated constructor stub
@@ -71,7 +76,19 @@ public class BoardCanvas extends Canvas {
 					if (ref == null) {
 						return;
 					}
-					ArrayList<Move> show;
+					if (px == xPos && py == yPos) {
+						for (Move m : show) {
+							colored[m.endX][m.endY] = 0;
+						}
+						show.clear();
+						repaint();
+						return;
+					} else if (px != -1 && py != -1) {
+						for (Move m : show) {
+							colored[m.endX][m.endY] = 0;
+						}
+						show.clear();
+					}
 					try {
 						show = ref.allMoves();
 					} catch (Exception e) {
@@ -82,7 +99,15 @@ public class BoardCanvas extends Canvas {
 					System.out.println(show.size());
 					for (Move m : show) {
 						m.print();
+						if (b.getPiece(m.endX, m.endY) == null) {
+							colored[m.endX][m.endY] = 1;
+						} else {
+							colored[m.endX][m.endY] = 2;
+						}
 					}
+					px = xPos;
+					py = yPos;
+					repaint();
 				}
 			}
 		});
@@ -107,21 +132,29 @@ public class BoardCanvas extends Canvas {
 	@Override
 	public void paint(Graphics g) {
 		// 20 Squares X 8 Squares
-
 		cx = this.getWidth() / 2;
 		cy = this.getHeight() / 2;
+		int bx = cx - squareSize * 4;
+		int by = cy + squareSize * 4;
 		g.drawRect(cx - squareSize * 4 - 1, cy - squareSize * 4 - 1, squareSize * 8 + 1, squareSize * 8 + 1);
-		for (int col = -4; col < 4; col++) {
-			for (int row = -4; row < 4; row++) {
-				int tx = cx + col * squareSize;
-				int ty = cy + row * squareSize;
+		for (int col = 0; col < 8; col++) {
+			for (int row = 0; row < 8; row++) {
+				int tx = bx + col * squareSize;
+				int ty = by - row * squareSize-squareSize;
 
-				if ((col + row) % 2 == 0)
+				if ((col + row) % 2 != 0) {
 					g.setColor(Color.WHITE);
-				else
+				} else {
 					g.setColor(Color.GRAY);
 
+				}
 				g.fillRect(tx, ty, squareSize, squareSize);
+				if (colored[col][row] == 1) {
+					g.setColor(new Color(Color.YELLOW.getRed(), Color.YELLOW.getGreen(), Color.YELLOW.getBlue(), 127));
+				} else if (colored[col][row] == 2) {
+					g.setColor(new Color(Color.BLUE.getRed(), Color.BLUE.getGreen(), Color.BLUE.getBlue(), 100));
+				}
+				g.fillRect(tx + 1, ty + 1, squareSize - 1, squareSize - 1);
 			}
 		}
 
@@ -132,8 +165,6 @@ public class BoardCanvas extends Canvas {
 		tx = cx - 4 * squareSize;
 		ty = (int) (cy + squareSize * 4.5);
 
-		int bx = cx - squareSize * 4;
-		int by = cy - squareSize * 4;
 		g.drawRect(tx, ty, squareSize * 8, squareSize * 2);
 
 		for (int i = 0; i < 8; i++) {
@@ -141,7 +172,7 @@ public class BoardCanvas extends Canvas {
 				b.getPiece(i, h);
 				if (b.getPiece(i, h) != null) {
 					g.drawImage(picRefrence.get(b.getPiece(i, h).COLOR).get(b.getPiece(i, h).TYPE),
-							bx + squareSize * (7 - i), by + squareSize * (7 - h), this);
+							bx + squareSize * i, by - squareSize * (h+1), this);
 				}
 			}
 		}

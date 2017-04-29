@@ -36,6 +36,7 @@ public class Pawn extends Piece {
 				return true;
 			} else if (pm.endY - pm.startY == COLOR && Math.abs(pm.startX - pm.endX) == 1
 					&& ((COLOR == 1 && pm.startY == 4) || (COLOR == -1 && pm.startY == 3))
+					&& currentBoard.getPiece(pm.endX, pm.endY) != null
 					&& currentBoard.getPiece(pm.endX, pm.startY).TYPE == PieceName.PAWN
 					&& ((currentBoard.lastMove.startY == 1 && currentBoard.lastMove.startY == 3
 							&& currentBoard.getPiece(pm.endX, pm.startY).COLOR == 1)
