@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 
 import framework.*;
+import framework.boardImporter.boardImporter;
 
 public class Main {
 
@@ -28,16 +29,18 @@ public class Main {
 
 	/**
 	 * Create the application.
+	 * @throws Exception 
 	 */
-	public Main() {
+	public Main() throws Exception {
 		initialize();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @throws Exception 
 	 */
-	private void initialize() {
-		Board board = new Board();
+	private void initialize() throws Exception {
+		Board board = boardImporter.importer("Resources\\BoardLayouts\\Classic.dat");
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

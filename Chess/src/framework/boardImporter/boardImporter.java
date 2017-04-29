@@ -27,23 +27,24 @@ public class boardImporter {
 				a = new Pawn(PieceName.PAWN, color, b, x, y, false);
 				break;
 			case "KING":
-				a = new Pawn(PieceName.PAWN, color, b, x, y, false);
+				a = new Pawn(PieceName.KING, color, b, x, y, false);
 				break;
 			case "QUEEN":
-				a = new Pawn(PieceName.PAWN, color, b, x, y, false);
+				a = new Pawn(PieceName.QUEEN, color, b, x, y, false);
 				break;
 			case "BISHOP":
-				a = new Pawn(PieceName.PAWN, color, b, x, y, false);
+				a = new Pawn(PieceName.BISHOP, color, b, x, y, false);
 				break;
 			case "KNIGHT":
-				a = new Pawn(PieceName.PAWN, color, b, x, y, false);
+				a = new Pawn(PieceName.KNIGHT, color, b, x, y, false);
 				break;
 			case "ROOK":
-				a = new Pawn(PieceName.PAWN, color, b, x, y, false);
+				a = new Pawn(PieceName.ROOK, color, b, x, y, false);
 				break;
 			default:
 				throw new Exception("Illegal piece");
 			}
+			b.setPiece(a, x, y);
 		}
 		return b;
 	}

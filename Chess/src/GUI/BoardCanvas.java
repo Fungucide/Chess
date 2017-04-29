@@ -72,7 +72,7 @@ public class BoardCanvas extends Canvas {
 				if ((col + row) % 2 == 0)
 					g.setColor(Color.WHITE);
 				else
-					g.setColor(Color.BLACK);
+					g.setColor(Color.GRAY);
 
 				g.fillRect(tx, ty, squareSize, squareSize);
 			}
@@ -93,7 +93,7 @@ public class BoardCanvas extends Canvas {
 			for (int h = 0; h < 8; h++) {
 				b.getPiece(i, h);
 				if (b.getPiece(i, h) != null) {
-					g.drawImage(picRefrence.get(b.getPiece(i, h).COLOR).get(b.getPiece(i, h).TYPE), bx+squareSize*(8-i),by+squareSize*(8-h) , this);
+					g.drawImage(picRefrence.get(b.getPiece(i, h).COLOR).get(b.getPiece(i, h).TYPE), bx+squareSize*(7-i),by+squareSize*(7-h) , this);
 				}
 			}
 		}
