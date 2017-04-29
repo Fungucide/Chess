@@ -26,25 +26,25 @@ public class Pawn extends Piece {
 		if (currentBoard.getPiece(pm.endX, pm.endY) == null) {
 			if (pm.startY == 1 || pm.startY == 6) { // Check for start pos
 				if (pm.endY - pm.startY == 2 * COLOR && pm.startX == pm.endX
-						&& currentBoard.getPiece(pm.startX, pm.startY - COLOR) == null) {
+						&& currentBoard.getPiece(pm.startX, pm.startY + COLOR) == null) {
 					// Check for two squares
 					return true;
 				}
-			} else {
-				if (pm.endY - pm.startY == COLOR && pm.startX == pm.endX) {
-					// Check for normal move
-					return true;
-				} else if (pm.endY - pm.startY == COLOR && Math.abs(pm.startX - pm.endX) == 1
-						&& ((COLOR == 1 && pm.startY == 4) || (COLOR == -1 && pm.startY == 3))
-						&& currentBoard.getPiece(pm.endX, pm.startY).TYPE == PieceName.PAWN
-						&& ((currentBoard.lastMove.startY == 1 && currentBoard.lastMove.startY == 3
-								&& currentBoard.getPiece(pm.endX, pm.startY).COLOR == 1)
-								|| (currentBoard.lastMove.startY == 6 && currentBoard.lastMove.endY == 4
-										&& currentBoard.getPiece(pm.endX, pm.startY).COLOR == -1))) {
-					// Check for edge case
-					return true;
-				}
 			}
+			if (pm.endY - pm.startY == COLOR && pm.startX == pm.endX) {
+				// Check for normal move
+				return true;
+			} else if (pm.endY - pm.startY == COLOR && Math.abs(pm.startX - pm.endX) == 1
+					&& ((COLOR == 1 && pm.startY == 4) || (COLOR == -1 && pm.startY == 3))
+					&& currentBoard.getPiece(pm.endX, pm.startY).TYPE == PieceName.PAWN
+					&& ((currentBoard.lastMove.startY == 1 && currentBoard.lastMove.startY == 3
+							&& currentBoard.getPiece(pm.endX, pm.startY).COLOR == 1)
+							|| (currentBoard.lastMove.startY == 6 && currentBoard.lastMove.endY == 4
+									&& currentBoard.getPiece(pm.endX, pm.startY).COLOR == -1))) {
+				// Check for edge case
+				return true;
+			}
+
 		} else {
 			if (pm.endY - pm.startY == COLOR && Math.abs(pm.startX - pm.endX) == 1
 					&& currentBoard.getPiece(pm.endX, pm.endY).COLOR == COLOR * -1) {

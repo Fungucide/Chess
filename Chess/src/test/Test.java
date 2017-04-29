@@ -7,17 +7,14 @@ import framework.GenericMove;
 import framework.Move;
 import framework.PieceName;
 import framework.Pieces.*;
+import framework.boardImporter.boardImporter;
 
 public class Test {
 
 	public static void main(String[] args) throws Exception {
-		Board b = new Board();
-		Knight k = new Knight(1, b, PieceName.KNIGHT);
-		b.setPiece(k, 0, 0);
-		if (k.move(new GenericMove(0, 0, 1, 2))) {
-			System.out.println("1");
-		}
-		ArrayList<Move> valid = k.allMoves();
+		Board b = boardImporter.importer("Resources\\BoardLayouts\\Classic.dat");
+		System.out.println(b.getPiece(1, 0).TYPE);
+		ArrayList<Move> valid = b.getPiece(1, 0).allMoves();
 		for (Move m : valid) {
 			m.print();
 		}

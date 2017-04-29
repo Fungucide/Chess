@@ -3,12 +3,16 @@ package framework.boardImporter;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 
 import framework.Board;
 import framework.PieceName;
+import framework.Pieces.Bishop;
+import framework.Pieces.King;
+import framework.Pieces.Knight;
 import framework.Pieces.Pawn;
 import framework.Pieces.Piece;
+import framework.Pieces.Queen;
+import framework.Pieces.Rook;
 
 public class boardImporter {
 	public static Board importer(String path) throws Exception {
@@ -27,19 +31,19 @@ public class boardImporter {
 				a = new Pawn(PieceName.PAWN, color, b, x, y, false);
 				break;
 			case "KING":
-				a = new Pawn(PieceName.KING, color, b, x, y, false);
+				a = new King(PieceName.KING, color, b, x, y, false);
 				break;
 			case "QUEEN":
-				a = new Pawn(PieceName.QUEEN, color, b, x, y, false);
+				a = new Queen(PieceName.QUEEN, color, b, x, y, false);
 				break;
 			case "BISHOP":
-				a = new Pawn(PieceName.BISHOP, color, b, x, y, false);
+				a = new Bishop(PieceName.BISHOP, color, b, x, y, false);
 				break;
 			case "KNIGHT":
-				a = new Pawn(PieceName.KNIGHT, color, b, x, y, false);
+				a = new Knight(PieceName.KNIGHT, color, b, x, y, false);
 				break;
 			case "ROOK":
-				a = new Pawn(PieceName.ROOK, color, b, x, y, false);
+				a = new Rook(PieceName.ROOK, color, b, x, y, false);
 				break;
 			default:
 				throw new Exception("Illegal piece");
