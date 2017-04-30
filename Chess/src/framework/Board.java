@@ -9,16 +9,16 @@ public class Board {
 	private Piece[][] board;
 	public Move lastMove;
 	public HashMap<Integer, ArrayList<Piece>> TeamRefrence = new HashMap<>();
-	private ArrayList<Piece> t1 = new ArrayList<>();
-	private ArrayList<Piece> t2 = new ArrayList<>();
+	private ArrayList<Piece> team1 = new ArrayList<>();
+	private ArrayList<Piece> team2 = new ArrayList<>();
 	public HashMap<Integer, ArrayList<Piece>> TakenRefrence = new HashMap<>();
 	private ArrayList<Piece> taken1 = new ArrayList<>();
 	private ArrayList<Piece> taken2 = new ArrayList<>();
 
 	public Board() {
 		board = new Piece[8][8];
-		TeamRefrence.put(1, t1);
-		TeamRefrence.put(-1, t2);
+		TeamRefrence.put(1, team1);
+		TeamRefrence.put(-1, team2);
 		TakenRefrence.put(1, taken1);
 		TakenRefrence.put(-1, taken2);
 	}

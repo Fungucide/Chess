@@ -1,6 +1,7 @@
 package framework.Pieces;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import framework.Board;
 import framework.GenericMove;
@@ -33,22 +34,65 @@ public abstract class Piece {
 	}
 
 	public boolean move(Move m) throws Exception {
+		return move(m, true);
+	}
+
+	protected boolean move(Move m, boolean real) throws Exception {
 		if (currentBoard.getPiece(m.startX, m.startY) == this && valid && isValidMove(m)) {
-			currentBoard.lastMove = m;
-			currentBoard.setPiece(null, m.startX, m.startY);
+			Piece tr = null;
+			boolean taken = false;
 			if (currentBoard.getPiece(m.endX, m.endY) != null) {
-				currentBoard.TakenRefrence.get(this.COLOR * -1).add(currentBoard.getPiece(m.endX, m.endY));
-				currentBoard.TeamRefrence.get(this.COLOR * -1).remove(currentBoard.getPiece(m.endX, m.endY));
-				currentBoard.getPiece(m.endX, m.endY).valid = false;
-				currentBoard.getPiece(m.endX, m.endY).x = -1;
-				currentBoard.getPiece(m.endX, m.endY).y = -1;
+				taken = true;
+				tr = currentBoard.getPiece(m.endX, m.endY);
 				currentBoard.removePiece(m.endX, m.endY);
 			}
 			currentBoard.removePiece(m.startX, m.startY);
 			currentBoard.setPiece(this, m.endX, m.endY);
 			x = m.endX;
 			y = m.endY;
-			moved = true;
+
+			ArrayList<Move> pMoves = new ArrayList<>();
+			for (Piece p : currentBoard.TeamRefrence.get(this.COLOR * -1)) {
+				pMoves.addAll(p.kingCheck());
+			}
+			Collections.sort(pMoves);
+
+			boolean flag = false;
+			for (Piece p : currentBoard.TeamRefrence.get(this.COLOR)) {
+				if (p.TYPE == PieceName.KING) {
+					if (Collections.binarySearch(pMoves, new GenericMove(-1, -1, p.x, p.y)) >= 0) {
+						flag = true;
+						break;
+					}
+				}
+			}
+
+			if (flag || !real) {
+				currentBoard.setPiece(this, m.startX, m.startY);
+				currentBoard.removePiece(m.endX, m.endY);
+				x = m.startX;
+				y = m.startY;
+				if (taken) {
+					currentBoard.setPiece(tr, m.endX, m.endY);
+				}
+			}
+
+			if (flag) {
+				return false;
+			}
+
+			if (real) {
+				currentBoard.lastMove = m;
+				moved = true;
+				if (taken) {
+					currentBoard.TakenRefrence.get(this.COLOR * -1).add(tr);
+					currentBoard.TeamRefrence.get(this.COLOR * -1).remove(tr);
+					tr.valid = false;
+					tr.x = -1;
+					tr.y = -1;
+				}
+			}
+
 			return true;
 		}
 		return false;
@@ -57,6 +101,23 @@ public abstract class Piece {
 	public abstract boolean isValidMove(Move m);
 
 	public ArrayList<Move> allMoves() throws Exception {
+		GenericMove m;
+		ArrayList<Move> valid = new ArrayList<Move>();
+		for (int i = 0; i < 8; i++) {
+			for (int h = 0; h < 8; h++) {
+				if (x == i && y == h) {
+					continue;
+				}
+				m = new GenericMove(x, y, i, h);
+				if (this.valid && move(m, false)) {
+					valid.add(m);
+				}
+			}
+		}
+		return valid;
+	}
+
+	public ArrayList<Move> kingCheck() throws Exception {
 		GenericMove m;
 		ArrayList<Move> valid = new ArrayList<Move>();
 		for (int i = 0; i < 8; i++) {

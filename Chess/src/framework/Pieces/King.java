@@ -23,49 +23,50 @@ public class King extends Piece {
 	}
 
 	@Override
-	public boolean move(Move m) throws Exception {
+	protected boolean move(Move m, boolean real) throws Exception {
 		ArrayList<Move> pMoves = new ArrayList<>();
 		for (Piece p : currentBoard.TeamRefrence.get(this.COLOR * -1)) {
 			pMoves.addAll(p.allMoves());
 		}
 		Collections.sort(pMoves);
-		if (currentBoard.getPiece(m.startX, m.startY) == this && valid && isValidMove(m)) {
-			currentBoard.lastMove = m;
+		if (super.move(m, real) && !moveIsShortCastle && !moveIsLongCastle) {
+			return true;
+		} else if (Collections.binarySearch(pMoves, new GenericMove(-1, -1, m.startX, m.startY)) < 0
+				&& Collections.binarySearch(pMoves, new GenericMove(-1, -1, m.endX, m.endY)) < 0) {
 			if (moveIsShortCastle) {
-				if (Collections.binarySearch(pMoves, new GenericMove(-1, -1, 4, m.startY)) == -1
-						&& Collections.binarySearch(pMoves, new GenericMove(-1, -1, 5, m.startY)) == -1
-						&& Collections.binarySearch(pMoves, new GenericMove(-1, -1, 6, m.startY)) == -1) {
-					currentBoard.removePiece(4, m.startY);
-					currentBoard.setPiece(this, 6, m.endY);
-					currentBoard.setPiece(currentBoard.getPiece(7, m.endY), 5, m.endY);
-					currentBoard.removePiece(7, m.endY);
-				} else {
-					return false;
+				moveIsShortCastle = false;
+				if (Collections.binarySearch(pMoves, new GenericMove(-1, -1, 5, m.endY)) < 0) {
+					if (real) {
+						currentBoard.setPiece(this, m.endX, m.endY);
+						currentBoard.removePiece(m.startX, m.startY);
+						currentBoard.setPiece(currentBoard.getPiece(7, y), 5, y);
+						currentBoard.removePiece(7, y);
+						x = m.endX;
+						y = m.endY;
+						moved = true;
+						currentBoard.lastMove = m;
+						currentBoard.getPiece(5, y).x = 5;
+						currentBoard.getPiece(5, y).moved = true;
+					}
+					return true;
 				}
 			} else if (moveIsLongCastle) {
-				if (Collections.binarySearch(pMoves, new GenericMove(-1, -1, 4, m.startY)) == -1
-						&& Collections.binarySearch(pMoves, new GenericMove(-1, -1, 5, m.startY)) == -1
-						&& Collections.binarySearch(pMoves, new GenericMove(-1, -1, 6, m.startY)) == -1) {
-					currentBoard.removePiece(4, m.startY);
-					currentBoard.setPiece(this, 2, m.endY);
-					currentBoard.setPiece(currentBoard.getPiece(0, m.endY), 3, m.endY);
-					currentBoard.removePiece(0, m.endY);
-				} else {
-					return false;
+				moveIsLongCastle = false;
+				if (Collections.binarySearch(pMoves, new GenericMove(-1, -1, 3, m.endY)) < 0) {
+					if (real) {
+						currentBoard.setPiece(this, m.endX, m.endY);
+						currentBoard.removePiece(m.startX, m.startY);
+						currentBoard.setPiece(currentBoard.getPiece(0, y), 3, y);
+						currentBoard.removePiece(0, y);
+						x = m.endX;
+						y = m.endY;
+						moved = true;
+						currentBoard.lastMove = m;
+						currentBoard.getPiece(3, y).x = 3;
+						currentBoard.getPiece(3, y).moved = true;
+					}
+					return true;
 				}
-			} else if (Collections.binarySearch(pMoves, new GenericMove(-1, -1, m.endX, m.endY)) == -1) {
-				currentBoard.setPiece(null, m.startX, m.startY);
-				if (currentBoard.getPiece(m.endX, m.endY) != null) {
-					currentBoard.getPiece(m.endX, m.endY).valid = false;
-					currentBoard.getPiece(m.endX, m.endY).x = -1;
-					currentBoard.getPiece(m.endX, m.endY).y = -1;
-				}
-				currentBoard.removePiece(m.startX, m.startY);
-				currentBoard.setPiece(this, m.endX, m.endY);
-				x = m.endX;
-				y = m.endY;
-				moved = true;
-				return true;
 			}
 		}
 		return false;
@@ -78,20 +79,25 @@ public class King extends Piece {
 	}
 
 	protected boolean _isValidKingMove(KingMove m) {
-		if (Math.abs(m.startX - m.endX) == 1 || Math.abs(m.startY - m.endY) == 1) {
-			if (currentBoard.getPiece(m.endX, m.endY) != null) {
+		if (Math.abs(m.startX - m.endX) <= 1 && Math.abs(m.startY - m.endY) <= 1) {
+			if (currentBoard.getPiece(m.endX, m.endY) != null && currentBoard.getPiece(m.endX, m.endY).COLOR == COLOR) {
 				return false;
 			} else {
+				return true;
 			}
-		} else if (!moved && m.endX == 6 && m.startY == m.endY) {
+		} else if (!moved && m.endX == 6 && (m.startY == 0 || m.startY == 7) && m.startY == m.endY) {
 			if (currentBoard.getPiece(5, m.startY) == null && currentBoard.getPiece(6, m.startY) == null
+					&& currentBoard.getPiece(7, m.startY) != null
+					&& currentBoard.getPiece(7, m.startY).TYPE == PieceName.ROOK
 					&& !currentBoard.getPiece(7, m.startY).moved) {
 				moveIsShortCastle = true;
 				return true;
 			}
-		} else if (!moved && m.endX == 2 && m.startY == m.endY) {
+		} else if (!moved && m.endX == 2 && (m.startY == 0 || m.startY == 7) && m.startY == m.endY) {
 			if (currentBoard.getPiece(1, m.startY) == null && currentBoard.getPiece(2, m.startY) == null
-					&& currentBoard.getPiece(3, m.startY) == null && !currentBoard.getPiece(7, m.startY).moved) {
+					&& currentBoard.getPiece(3, m.startY) == null && currentBoard.getPiece(0, m.startY) != null
+					&& currentBoard.getPiece(0, m.startY).TYPE == PieceName.ROOK
+					&& !currentBoard.getPiece(0, m.startY).moved) {
 				moveIsLongCastle = true;
 				return true;
 			}

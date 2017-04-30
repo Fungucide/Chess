@@ -4,10 +4,10 @@ public abstract class Move implements Comparable<Move> {
 	public final int startX, startY, endX, endY;
 
 	public Move(int sx, int sy, int ex, int ey) throws Exception {
-		if (sx > 8 || sx < 0) {
+		if (sx > 8 || sx < -1) {
 			throw new Exception("Move Class -> Starting X bound out of range");
 		}
-		if (sy > 8 || sy < 0) {
+		if (sy > 8 || sy < -1) {
 			throw new Exception("Move Class -> Starting Y bound out of range");
 		}
 		if (ex > 8 || ex < 0) {
