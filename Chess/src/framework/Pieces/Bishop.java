@@ -30,7 +30,7 @@ public class Bishop extends Piece {
 	protected boolean _isValidBishopMove(BishopMove m) throws Exception {
 		if (currentBoard.getPiece(m.endX, m.endY) != null && currentBoard.getPiece(m.endX, m.endY).COLOR == COLOR) {
 			return false;
-		} else if (currentBoard.getPiece(m.endX, m.endY) == null) {
+		} else {
 			if (Math.abs(m.startX - m.endX) != Math.abs(m.startY - m.endY)) {
 				return false;
 			}
