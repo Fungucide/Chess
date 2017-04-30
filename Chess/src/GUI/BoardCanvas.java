@@ -195,13 +195,20 @@ public class BoardCanvas extends Canvas {
 		}
 
 		g.setColor(Color.BLACK);
+
 		int tx = cx - 4 * squareSize;
 		int ty = (int) (cy - squareSize * 6.5);
 		g.drawRect(tx, ty, squareSize * 8, squareSize * 2);
+		for (int i = 0; i < b.TakenRefrence.get(1).size(); i++) {
+			g.drawImage(picRefrence.get(1).get(b.TakenRefrence.get(1).get(i).TYPE), tx + squareSize * i, ty, this);
+		}
+
 		tx = cx - 4 * squareSize;
 		ty = (int) (cy + squareSize * 4.5);
-
 		g.drawRect(tx, ty, squareSize * 8, squareSize * 2);
+		for (int i = 0; i < b.TakenRefrence.get(-1).size(); i++) {
+			g.drawImage(picRefrence.get(-1).get(b.TakenRefrence.get(-1).get(i).TYPE), tx + squareSize * i, ty, this);
+		}
 
 		for (int i = 0; i < 8; i++) {
 			for (int h = 0; h < 8; h++) {

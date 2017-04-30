@@ -40,7 +40,7 @@ public class Main {
 	 * @throws Exception 
 	 */
 	private void initialize() throws Exception {
-		Board board = boardImporter.importer("Resources\\BoardLayouts\\Classic.dat");
+		Board board = boardImporter.importer("Resources\\BoardLayouts\\KingTest2.dat");
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

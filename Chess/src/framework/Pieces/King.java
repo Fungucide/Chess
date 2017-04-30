@@ -26,7 +26,7 @@ public class King extends Piece {
 	protected boolean move(Move m, boolean real) throws Exception {
 		ArrayList<Move> pMoves = new ArrayList<>();
 		for (Piece p : currentBoard.TeamRefrence.get(this.COLOR * -1)) {
-			pMoves.addAll(p.allMoves());
+			pMoves.addAll(p.kingCheck());
 		}
 		Collections.sort(pMoves);
 		if (super.move(m, real) && !moveIsShortCastle && !moveIsLongCastle) {
