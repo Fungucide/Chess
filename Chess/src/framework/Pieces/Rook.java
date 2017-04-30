@@ -26,32 +26,18 @@ public class Rook extends Piece {
 	protected boolean _isValidRookMove(RookMove m) {
 		if (m.startX != m.endX && m.startY != m.endY) {
 			return false;
-		} else if (m.startX == m.endX) {
-			if (m.startY < m.endY) {
-				for (int i = 1; i < m.endY - m.startY - 1; i++) {
-					if (currentBoard.getPiece(m.startX, m.startY + i) != null) {
-						return false;
-					}
-				}
-			} else {
-				for (int i = 1; i < m.startY - m.endY - 1; i++) {
-					if (currentBoard.getPiece(m.startX, m.endY + i) != null) {
-						return false;
-					}
+		} else if (m.startY == m.endY) {
+			int dX = (m.endX - m.startX) / Math.abs(m.endX - m.startX);
+			for (int i = 1; i < m.endX - m.startX; i++) {
+				if (currentBoard.getPiece(m.startX + dX * i, m.startY) != null) {
+					return false;
 				}
 			}
-		} else if (m.startY == m.endY) {
-			if (m.startX < m.endX) {
-				for (int i = 0; i < m.endX - m.startX - 1; i++) {
-					if (currentBoard.getPiece(m.startX + i, m.startY) != null) {
-						return false;
-					}
-				}
-			} else {
-				for (int i = 1; i < m.startX - m.endX - 1; i++) {
-					if (currentBoard.getPiece(m.endX + i, m.startY) != null) {
-						return false;
-					}
+		} else if (m.startX == m.endX) {
+			int dY = (m.endY - m.startY) / Math.abs(m.endY - m.startY);
+			for (int i = 1; i < m.endY - m.startY; i++) {
+				if (currentBoard.getPiece(m.startX, m.startY + dY * i) != null) {
+					return false;
 				}
 			}
 		}

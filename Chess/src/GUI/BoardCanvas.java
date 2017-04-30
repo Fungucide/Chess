@@ -81,6 +81,8 @@ public class BoardCanvas extends Canvas {
 							colored[m.endX][m.endY] = 0;
 						}
 						show.clear();
+						px=-1;
+						py=-1;
 						repaint();
 						return;
 					} else if (px != -1 && py != -1) {
@@ -146,15 +148,19 @@ public class BoardCanvas extends Canvas {
 					g.setColor(Color.WHITE);
 				} else {
 					g.setColor(Color.GRAY);
-
 				}
 				g.fillRect(tx, ty, squareSize, squareSize);
 				if (colored[col][row] == 1) {
-					g.setColor(new Color(Color.YELLOW.getRed(), Color.YELLOW.getGreen(), Color.YELLOW.getBlue(), 127));
+					if ((col + row) % 2 != 0) {
+						g.setColor(new Color(Color.YELLOW.getRed(), Color.YELLOW.getGreen(), Color.YELLOW.getBlue(), 200));
+					} else {
+						g.setColor(new Color(Color.YELLOW.getRed(), Color.YELLOW.getGreen(), Color.YELLOW.getBlue(), 127));
+					}
+					
 				} else if (colored[col][row] == 2) {
 					g.setColor(new Color(Color.BLUE.getRed(), Color.BLUE.getGreen(), Color.BLUE.getBlue(), 100));
 				}
-				g.fillRect(tx + 1, ty + 1, squareSize - 1, squareSize - 1);
+				g.fillRect(tx, ty, squareSize, squareSize);
 			}
 		}
 

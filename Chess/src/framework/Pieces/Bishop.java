@@ -18,48 +18,29 @@ public class Bishop extends Piece {
 	@Override
 	public boolean isValidMove(Move m) {
 		// TODO Auto-generated method stub
-		return _isValidBishopMove(new BishopMove(m));
-	}
-
-	protected boolean _isValidBishopMove(BishopMove m) {
-		if (Math.abs(m.startX - m.endX) == Math.abs(m.startY - m.endY)) {
-			int slope = (m.startX - m.endX) / (m.startY - m.endY);
-			if (slope == 1) {
-				if (m.startX < m.endX) {
-					for (int i = 1; i < m.endX - m.startX - 1; i++) {
-						if (currentBoard.getPiece(m.startX + i, m.startY + i) != null) {
-							return false;
-						}
-					}
-				} else {
-					for (int i = -1; i > m.endX - m.startX + 1; i--) {
-						if (currentBoard.getPiece(m.startX + i, m.startY + i) != null) {
-							return false;
-						}
-					}
-				}
-			} else if (slope == -1) {
-				if (m.startX > m.endX) {
-					for (int i = 1; i < m.startX - m.endX - 1; i++) {
-						if (currentBoard.getPiece(m.startX - i, m.startY + i) != null) {
-							return false;
-						}
-					}
-				} else {
-					for (int i = 1; i < m.endX - m.startX - 1; i++) {
-						if (currentBoard.getPiece(m.startX + i, m.startY - i) != null) {
-							return false;
-						}
-					}
-				}
-			} else {
-				return false;
-			}
-		} else {
+		try {
+			return _isValidBishopMove(new BishopMove(m));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 			return false;
 		}
+	}
+
+	protected boolean _isValidBishopMove(BishopMove m) throws Exception {
 		if (currentBoard.getPiece(m.endX, m.endY) != null && currentBoard.getPiece(m.endX, m.endY).COLOR == COLOR) {
 			return false;
+		} else if (currentBoard.getPiece(m.endX, m.endY) == null) {
+			if (Math.abs(m.startX - m.endX) != Math.abs(m.startY - m.endY)) {
+				return false;
+			}
+			int dX = (m.endX - m.startX) / Math.abs(m.endX - m.startX);
+			int dY = (m.endY - m.startY) / Math.abs(m.endY - m.startY);
+			for (int i = 1; i < Math.abs(m.endX - m.startX); i++) {
+				if (currentBoard.getPiece(m.startX + dX * i, m.startY + dY * i) != null) {
+					return false;
+				}
+			}
 		}
 		return true;
 	}
