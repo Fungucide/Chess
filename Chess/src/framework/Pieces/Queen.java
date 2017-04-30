@@ -27,14 +27,14 @@ public class Queen extends Piece {
 		} else if (m.startX == m.endX || m.startY == m.endY) {
 			if (m.startY == m.endY) {
 				int dX = (m.endX - m.startX) / Math.abs(m.endX - m.startX);
-				for (int i = 1; i < m.endX - m.startX; i++) {
+				for (int i = 1; i < Math.abs(m.endX - m.startX); i++) {
 					if (currentBoard.getPiece(m.startX + dX * i, m.startY) != null) {
 						return false;
 					}
 				}
 			} else if (m.startX == m.endX) {
 				int dY = (m.endY - m.startY) / Math.abs(m.endY - m.startY);
-				for (int i = 1; i < m.endY - m.startY; i++) {
+				for (int i = 1; i < Math.abs(m.endY - m.startY); i++) {
 					if (currentBoard.getPiece(m.startX, m.startY + dY * i) != null) {
 						return false;
 					}
@@ -48,7 +48,7 @@ public class Queen extends Piece {
 					return false;
 				}
 			}
-		}else{
+		} else {
 			return false;
 		}
 		return true;

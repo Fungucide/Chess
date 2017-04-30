@@ -45,6 +45,7 @@ public abstract class Piece {
 				taken = true;
 				tr = currentBoard.getPiece(m.endX, m.endY);
 				currentBoard.removePiece(m.endX, m.endY);
+				tr.valid = false;
 			}
 			currentBoard.removePiece(m.startX, m.startY);
 			currentBoard.setPiece(this, m.endX, m.endY);
@@ -53,7 +54,9 @@ public abstract class Piece {
 
 			ArrayList<Move> pMoves = new ArrayList<>();
 			for (Piece p : currentBoard.TeamRefrence.get(this.COLOR * -1)) {
-				pMoves.addAll(p.kingCheck());
+				if (p.valid) {
+					pMoves.addAll(p.kingCheck());
+				}
 			}
 			Collections.sort(pMoves);
 
@@ -74,6 +77,7 @@ public abstract class Piece {
 				y = m.startY;
 				if (taken) {
 					currentBoard.setPiece(tr, m.endX, m.endY);
+					tr.valid = true;
 				}
 			}
 

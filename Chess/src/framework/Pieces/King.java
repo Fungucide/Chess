@@ -30,6 +30,8 @@ public class King extends Piece {
 		}
 		Collections.sort(pMoves);
 		if (super.move(m, real) && !moveIsShortCastle && !moveIsLongCastle) {
+			System.out.print("Normal");
+			m.print();
 			return true;
 		} else if (Collections.binarySearch(pMoves, new GenericMove(-1, -1, m.startX, m.startY)) < 0
 				&& Collections.binarySearch(pMoves, new GenericMove(-1, -1, m.endX, m.endY)) < 0) {
@@ -48,6 +50,8 @@ public class King extends Piece {
 						currentBoard.getPiece(5, y).x = 5;
 						currentBoard.getPiece(5, y).moved = true;
 					}
+					System.out.print("Short");
+					m.print();
 					return true;
 				}
 			} else if (moveIsLongCastle) {
@@ -65,6 +69,8 @@ public class King extends Piece {
 						currentBoard.getPiece(3, y).x = 3;
 						currentBoard.getPiece(3, y).moved = true;
 					}
+					System.out.print("Long");
+					m.print();
 					return true;
 				}
 			}
@@ -85,7 +91,8 @@ public class King extends Piece {
 			} else {
 				return true;
 			}
-		} else if (!moved && m.endX == 6 && (m.startY == 0 || m.startY == 7) && m.startY == m.endY) {
+		} else if (!moved && m.endX == 6 && ((m.startY == 0 && COLOR == 1) || (m.startY == 7 && COLOR == -1))
+				&& m.startY == m.endY) {
 			if (currentBoard.getPiece(5, m.startY) == null && currentBoard.getPiece(6, m.startY) == null
 					&& currentBoard.getPiece(7, m.startY) != null
 					&& currentBoard.getPiece(7, m.startY).TYPE == PieceName.ROOK
@@ -93,16 +100,27 @@ public class King extends Piece {
 				moveIsShortCastle = true;
 				return true;
 			}
-		} else if (!moved && m.endX == 2 && (m.startY == 0 || m.startY == 7) && m.startY == m.endY) {
+		} else if (!moved && m.endX == 2 && ((m.startY == 0 && COLOR == 1) || (m.startY == 7 && COLOR == -1))
+				&& m.startY == m.endY) {
 			if (currentBoard.getPiece(1, m.startY) == null && currentBoard.getPiece(2, m.startY) == null
 					&& currentBoard.getPiece(3, m.startY) == null && currentBoard.getPiece(0, m.startY) != null
 					&& currentBoard.getPiece(0, m.startY).TYPE == PieceName.ROOK
 					&& !currentBoard.getPiece(0, m.startY).moved) {
 				moveIsLongCastle = true;
+				System.out.print("Long C");
+				m.print();
 				return true;
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public ArrayList<Move> kingCheck() throws Exception {
+		ArrayList<Move> r = super.kingCheck();
+		moveIsShortCastle = false;
+		moveIsLongCastle = false;
+		return r;
 	}
 
 	private static class KingMove extends Move {

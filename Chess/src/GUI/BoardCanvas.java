@@ -2,6 +2,7 @@ package GUI;
 
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ComponentAdapter;
@@ -138,7 +139,7 @@ public class BoardCanvas extends Canvas {
 
 	public void getImage() throws IOException {
 		String map = "KQBNRP";
-		squareSize = Math.min(this.getHeight() / 15, this.getWidth() / 9);
+		squareSize = Math.min(this.getHeight() / 16, this.getWidth() / 9);
 		for (int i = 0; i < map.length(); i++) {
 			Image img = ImageIO.read(new File("Resources\\Pictures\\Pieces\\White " + map.charAt(i) + ".png"))
 					.getScaledInstance(squareSize, squareSize, Image.SCALE_SMOOTH);
@@ -187,25 +188,36 @@ public class BoardCanvas extends Canvas {
 					if ((col + row) % 2 != 0) {
 						g.setColor(new Color(255, 255, 0, 230));
 					} else {
-						g.setColor(new Color(255, 255, 0, 150));
+						g.setColor(new Color(255, 255, 0, 175));
 					}
 				}
 				g.fillRect(tx, ty, squareSize, squareSize);
 			}
 		}
 
-		g.setColor(Color.BLACK);
-
 		int tx = cx - 4 * squareSize;
-		int ty = (int) (cy - squareSize * 6.5);
+		int ty = (int) (cy - squareSize * 7);
+		g.setFont(new Font("Times New Roman", Font.PLAIN, (int) (squareSize * .8)));
+		g.setColor(Color.LIGHT_GRAY);
+		g.fillRect(tx, ty, squareSize * 8, squareSize * 2);
+		g.setColor(Color.BLACK);
 		g.drawRect(tx, ty, squareSize * 8, squareSize * 2);
+		if (color == -1) {
+			g.drawString("Player 2's Turn", tx, ty + (int) Math.round(squareSize * 2.8));
+		}
 		for (int i = 0; i < b.TakenRefrence.get(1).size(); i++) {
 			g.drawImage(picRefrence.get(1).get(b.TakenRefrence.get(1).get(i).TYPE), tx + squareSize * i, ty, this);
 		}
 
 		tx = cx - 4 * squareSize;
-		ty = (int) (cy + squareSize * 4.5);
+		ty = (int) (cy + squareSize * 5);
+		g.setColor(Color.LIGHT_GRAY);
+		g.fillRect(tx, ty, squareSize * 8, squareSize * 2);
+		g.setColor(Color.BLACK);
 		g.drawRect(tx, ty, squareSize * 8, squareSize * 2);
+		if (color == 1) {
+			g.drawString("Player 1's Turn", tx, ty - (int) Math.round(squareSize * .2));
+		}
 		for (int i = 0; i < b.TakenRefrence.get(-1).size(); i++) {
 			g.drawImage(picRefrence.get(-1).get(b.TakenRefrence.get(-1).get(i).TYPE), tx + squareSize * i, ty, this);
 		}
