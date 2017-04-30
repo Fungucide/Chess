@@ -16,6 +16,7 @@ import java.util.HashMap;
 import javax.imageio.ImageIO;
 
 import framework.Board;
+import framework.GenericMove;
 import framework.Move;
 import framework.PieceName;
 import framework.Pieces.Piece;
@@ -36,6 +37,7 @@ public class BoardCanvas extends Canvas {
 	int cy;
 	int px = -1;
 	int py = -1;
+	int color = 1;
 
 	public BoardCanvas(Board b) {
 		// TODO Auto-generated constructor stub
@@ -71,8 +73,28 @@ public class BoardCanvas extends Canvas {
 						yPos = (int) Math.floor((double) (cy - y) / (double) squareSize) + 4;
 					}
 					Piece ref = b.getPiece(xPos, yPos);
-					if (ref == null) {
-						return;
+					if (ref == null || ref.COLOR != color) {
+						if (px != -1 && py != -1) {
+							try {
+								if (b.getPiece(px, py).move(new GenericMove(px, py, xPos, yPos))) {
+									color *= -1;
+									colored[px][py] = 0;
+									for (Move m : show) {
+										colored[m.endX][m.endY] = 0;
+									}
+									show.clear();
+									px = -1;
+									py = -1;
+									repaint();
+								}
+								return;
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						} else {
+							return;
+						}
 					}
 					if (px == xPos && py == yPos) {
 						colored[px][py] = 0;

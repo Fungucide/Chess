@@ -42,6 +42,7 @@ public abstract class Piece {
 				currentBoard.getPiece(m.endX, m.endY).valid = false;
 				currentBoard.getPiece(m.endX, m.endY).x = -1;
 				currentBoard.getPiece(m.endX, m.endY).y = -1;
+				currentBoard.removePiece(m.endX, m.endY);
 			}
 			currentBoard.removePiece(m.startX, m.startY);
 			currentBoard.setPiece(this, m.endX, m.endY);
