@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import framework.Board;
 import framework.Game;
 import framework.boardImporter.gameImporter;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
 
 public class Main {
 
@@ -50,6 +52,7 @@ public class Main {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		BoardPanel bp = new BoardPanel(g);
 		frame.add(bp);
+
 	}
 
 }

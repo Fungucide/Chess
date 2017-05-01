@@ -38,12 +38,13 @@ public class BoardCanvas extends Canvas {
 	int cy;
 	int px = -1;
 	int py = -1;
-	int color = 1;
 	private Board b;
+	private Game g;
 
 	public BoardCanvas(Game g) {
 		// TODO Auto-generated constructor stub
 		this.b = g.b;
+		this.g = g;
 		addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent ce) {
@@ -75,11 +76,11 @@ public class BoardCanvas extends Canvas {
 						yPos = (int) Math.floor((double) (cy - y) / (double) squareSize) + 4;
 					}
 					Piece ref = b.getPiece(xPos, yPos);
-					if (ref == null || ref.COLOR != color) {
+					if (ref == null || ref.COLOR != g.turn) {
 						if (px != -1 && py != -1) {
 							try {
 								if (b.getPiece(px, py).move(new GenericMove(px, py, xPos, yPos))) {
-									color *= -1;
+									g.turn *= -1;
 									colored[px][py] = 0;
 									for (Move m : show) {
 										colored[m.endX][m.endY] = 0;
@@ -203,7 +204,7 @@ public class BoardCanvas extends Canvas {
 		g.fillRect(tx, ty, squareSize * 8, squareSize * 2);
 		g.setColor(Color.BLACK);
 		g.drawRect(tx, ty, squareSize * 8, squareSize * 2);
-		if (color == -1) {
+		if (this.g.turn == -1) {
 			g.drawString("Player 2's Turn", tx, ty + (int) Math.round(squareSize * 2.8));
 		}
 		for (int i = 0; i < b.TakenRefrence.get(1).size(); i++) {
@@ -216,7 +217,7 @@ public class BoardCanvas extends Canvas {
 		g.fillRect(tx, ty, squareSize * 8, squareSize * 2);
 		g.setColor(Color.BLACK);
 		g.drawRect(tx, ty, squareSize * 8, squareSize * 2);
-		if (color == 1) {
+		if (this.g.turn == 1) {
 			g.drawString("Player 1's Turn", tx, ty - (int) Math.round(squareSize * .2));
 		}
 		for (int i = 0; i < b.TakenRefrence.get(-1).size(); i++) {
@@ -231,6 +232,12 @@ public class BoardCanvas extends Canvas {
 							by - squareSize * (h + 1), this);
 				}
 			}
+		}
+		System.out.println(this.g.noMoves + " " + this.g.check);
+		if (this.g.noMoves != 0 && this.g.check != 0) {
+			System.out.println("Checkmate:" + this.g.noMoves);
+		} else if (this.g.noMoves != 0) {
+			System.out.println("Draw");
 		}
 	}
 }

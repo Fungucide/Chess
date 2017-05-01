@@ -10,7 +10,7 @@ public class Board {
 	private Piece[][] board;
 	public Move lastMove;
 	public HashMap<Integer, ArrayList<Piece>> TeamRefrence = new HashMap<>();
-	private ArrayList<Piece> team1 = new ArrayList<>();
+	private ArrayList<Piece> team1 = new ArrayList<Piece>();
 	private ArrayList<Piece> team2 = new ArrayList<>();
 	public HashMap<Integer, ArrayList<Piece>> TakenRefrence = new HashMap<>();
 	private ArrayList<Piece> taken1 = new ArrayList<>();
@@ -28,7 +28,7 @@ public class Board {
 		return board[x][y];
 	}
 
-	public boolean setPiece(Piece p, int x, int y) {
+	public boolean initializePiece(Piece p, int x, int y) {
 		if (board[x][y] == null) {
 			board[x][y] = p;
 			p.x = x;
@@ -39,15 +39,36 @@ public class Board {
 		return false;
 	}
 
+	public boolean setPiece(Piece p, int x, int y) {
+		if (board[x][y] == null) {
+			board[x][y] = p;
+			p.x = x;
+			p.y = y;
+			return true;
+		}
+		return false;
+	}
+
 	public void removePiece(int x, int y) {
 		board[x][y] = null;
+	}
+
+	public ArrayList<Move> teamKingCheck(int t) throws Exception {
+		ArrayList<Move> pMoves = new ArrayList<>();
+		for (Piece p : TeamRefrence.get(t)) {
+			if (p.valid) {
+				pMoves.addAll(p.kingCheck());
+			}
+		}
+		Collections.sort(pMoves);
+		return pMoves;
 	}
 
 	public ArrayList<Move> teamMove(int t) throws Exception {
 		ArrayList<Move> pMoves = new ArrayList<>();
 		for (Piece p : TeamRefrence.get(t)) {
 			if (p.valid) {
-				pMoves.addAll(p.kingCheck());
+				pMoves.addAll(p.allMoves());
 			}
 		}
 		Collections.sort(pMoves);

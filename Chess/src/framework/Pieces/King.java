@@ -25,10 +25,8 @@ public class King extends Piece {
 
 	@Override
 	protected boolean move(Move m, boolean real) throws Exception {
-		ArrayList<Move> pMoves = currentBoard.teamMove(COLOR * -1);
+		ArrayList<Move> pMoves = currentBoard.teamKingCheck(COLOR * -1);
 		if (super.move(m, real) && !moveIsShortCastle && !moveIsLongCastle) {
-			System.out.print("Normal");
-			m.print();
 			return true;
 		} else if (Collections.binarySearch(pMoves, new GenericMove(-1, -1, m.startX, m.startY)) < 0
 				&& Collections.binarySearch(pMoves, new GenericMove(-1, -1, m.endX, m.endY)) < 0) {
@@ -47,8 +45,7 @@ public class King extends Piece {
 						currentBoard.getPiece(5, y).x = 5;
 						currentBoard.getPiece(5, y).moved = true;
 					}
-					System.out.print("Short");
-					m.print();
+					g.moveMade();
 					return true;
 				}
 			} else if (moveIsLongCastle) {
@@ -66,8 +63,7 @@ public class King extends Piece {
 						currentBoard.getPiece(3, y).x = 3;
 						currentBoard.getPiece(3, y).moved = true;
 					}
-					System.out.print("Long");
-					m.print();
+					g.moveMade();
 					return true;
 				}
 			}

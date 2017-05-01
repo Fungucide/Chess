@@ -22,7 +22,7 @@ public abstract class Piece {
 	protected Piece(PieceName name, int color, Game g, Board board) {
 		this.COLOR = color;
 		currentBoard = board;
-		this.g = g;
+		Piece.g = g;
 		this.TYPE = name;
 	}
 
@@ -31,7 +31,7 @@ public abstract class Piece {
 		currentBoard = board;
 		this.TYPE = name;
 		this.moved = moved;
-		this.g = g;
+		Piece.g = g;
 		if (!board.setPiece(this, x, y)) {
 			throw new Exception("Illegal Placement of piece");
 		}
@@ -56,7 +56,7 @@ public abstract class Piece {
 			x = m.endX;
 			y = m.endY;
 
-			ArrayList<Move> pMoves = currentBoard.teamMove(COLOR * -1);
+			ArrayList<Move> pMoves = currentBoard.teamKingCheck(COLOR * -1);
 
 			boolean flag = false;
 			for (Piece p : currentBoard.TeamRefrence.get(this.COLOR)) {
@@ -93,8 +93,8 @@ public abstract class Piece {
 					tr.x = -1;
 					tr.y = -1;
 				}
+				g.moveMade();
 			}
-
 			return true;
 		}
 		return false;
