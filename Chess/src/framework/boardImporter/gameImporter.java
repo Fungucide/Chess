@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 
 import framework.Board;
+import framework.Game;
 import framework.PieceName;
 import framework.Pieces.Bishop;
 import framework.Pieces.King;
@@ -14,9 +15,10 @@ import framework.Pieces.Piece;
 import framework.Pieces.Queen;
 import framework.Pieces.Rook;
 
-public class boardImporter {
+public class gameImporter {
 	public static Board importer(String path) throws Exception {
 		Board b = new Board();
+		Game g = new Game(b);
 		BufferedReader br = new BufferedReader(new FileReader(new File(path)));
 		String temp;
 		String[] split;
@@ -28,22 +30,22 @@ public class boardImporter {
 			Piece a;
 			switch (split[0]) {
 			case "PAWN":
-				a = new Pawn(PieceName.PAWN, color, b, x, y, false);
+				a = new Pawn(PieceName.PAWN, color, g, b, x, y, false);
 				break;
 			case "KING":
-				a = new King(PieceName.KING, color, b, x, y, false);
+				a = new King(PieceName.KING, color, g, b, x, y, false);
 				break;
 			case "QUEEN":
-				a = new Queen(PieceName.QUEEN, color, b, x, y, false);
+				a = new Queen(PieceName.QUEEN, color, g, b, x, y, false);
 				break;
 			case "BISHOP":
-				a = new Bishop(PieceName.BISHOP, color, b, x, y, false);
+				a = new Bishop(PieceName.BISHOP, color, g, b, x, y, false);
 				break;
 			case "KNIGHT":
-				a = new Knight(PieceName.KNIGHT, color, b, x, y, false);
+				a = new Knight(PieceName.KNIGHT, color, g, b, x, y, false);
 				break;
 			case "ROOK":
-				a = new Rook(PieceName.ROOK, color, b, x, y, false);
+				a = new Rook(PieceName.ROOK, color, g, b, x, y, false);
 				break;
 			default:
 				throw new Exception("Illegal piece");

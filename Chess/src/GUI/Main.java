@@ -4,8 +4,9 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 
-import framework.*;
-import framework.boardImporter.boardImporter;
+import framework.Board;
+import framework.Game;
+import framework.boardImporter.gameImporter;
 
 public class Main {
 
@@ -29,7 +30,8 @@ public class Main {
 
 	/**
 	 * Create the application.
-	 * @throws Exception 
+	 * 
+	 * @throws Exception
 	 */
 	public Main() throws Exception {
 		initialize();
@@ -37,15 +39,17 @@ public class Main {
 
 	/**
 	 * Initialize the contents of the frame.
-	 * @throws Exception 
+	 * 
+	 * @throws Exception
 	 */
 	private void initialize() throws Exception {
-		Board board = boardImporter.importer("Resources\\BoardLayouts\\Classic.dat");
+		Board b = gameImporter.importer("Resources\\BoardLayouts\\Classic.dat");
+		Game g = new Game(b);
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		BoardPanel b = new BoardPanel(board);
-		frame.add(b);
+		BoardPanel bp = new BoardPanel(g);
+		frame.add(bp);
 	}
 
 }

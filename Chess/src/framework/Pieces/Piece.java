@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import framework.Board;
+import framework.Game;
 import framework.GenericMove;
 import framework.Move;
 import framework.PieceName;
@@ -11,23 +12,26 @@ import framework.PieceName;
 public abstract class Piece {
 	public final int COLOR;
 	protected static Board currentBoard;
+	protected static Game g;
 	public final PieceName TYPE;
 	public boolean valid = true;
 	public boolean moved = false;
 	public int x;
 	public int y;
 
-	protected Piece(PieceName name, int color, Board board) {
+	protected Piece(PieceName name, int color, Game g, Board board) {
 		this.COLOR = color;
 		currentBoard = board;
+		this.g = g;
 		this.TYPE = name;
 	}
 
-	protected Piece(PieceName name, int color, Board board, int x, int y, boolean moved) throws Exception {
+	protected Piece(PieceName name, int color, Game g, Board board, int x, int y, boolean moved) throws Exception {
 		this.COLOR = color;
 		currentBoard = board;
 		this.TYPE = name;
 		this.moved = moved;
+		this.g = g;
 		if (!board.setPiece(this, x, y)) {
 			throw new Exception("Illegal Placement of piece");
 		}

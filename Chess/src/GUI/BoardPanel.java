@@ -4,8 +4,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
 
-import framework.Board;
-import framework.Pieces.Piece;
+import framework.Game;
 
 public class BoardPanel extends JPanel {
 
@@ -19,15 +18,10 @@ public class BoardPanel extends JPanel {
 	 * 
 	 * @throws Exception
 	 */
-	public BoardPanel(Board b) throws Exception {
-		for (Piece p : b.TeamRefrence.get(1)) {
-			p.kingCheck();
-		}
-		for (Piece p : b.TeamRefrence.get(-1)) {
-			p.kingCheck();
-		}
+	public BoardPanel(Game g) throws Exception {
+
 		setLayout(new BorderLayout(0, 0));
-		BoardCanvas bc = new BoardCanvas(b);
+		BoardCanvas bc = new BoardCanvas(g);
 		add(bc, BorderLayout.CENTER);
 
 	}

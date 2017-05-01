@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import framework.Board;
+import framework.Game;
 import framework.GenericMove;
 import framework.Move;
 import framework.PieceName;
@@ -13,13 +14,13 @@ public class King extends Piece {
 	private boolean moveIsShortCastle = false;
 	private boolean moveIsLongCastle = false;
 
-	public King(PieceName name, int color, Board board) {
-		super(name, color, board);
+	public King(PieceName name, int color, Game g, Board board) {
+		super(name, color, g, board);
 		// TODO Auto-generated constructor stub
 	}
 
-	public King(PieceName name, int color, Board board, int x, int y, boolean moved) throws Exception {
-		super(name, color, board, x, y, moved);
+	public King(PieceName name, int color, Game g, Board board, int x, int y, boolean moved) throws Exception {
+		super(name, color, g, board, x, y, moved);
 	}
 
 	@Override

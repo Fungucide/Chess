@@ -17,6 +17,7 @@ import java.util.HashMap;
 import javax.imageio.ImageIO;
 
 import framework.Board;
+import framework.Game;
 import framework.GenericMove;
 import framework.Move;
 import framework.PieceName;
@@ -27,7 +28,6 @@ public class BoardCanvas extends Canvas {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	Board b;
 	HashMap<PieceName, Image> whitePicRefrence = new HashMap<>();
 	HashMap<PieceName, Image> blackPicRefrence = new HashMap<>();
 	HashMap<Integer, HashMap<PieceName, Image>> picRefrence = new HashMap<>();
@@ -39,10 +39,11 @@ public class BoardCanvas extends Canvas {
 	int px = -1;
 	int py = -1;
 	int color = 1;
+	private Board b;
 
-	public BoardCanvas(Board b) {
+	public BoardCanvas(Game g) {
 		// TODO Auto-generated constructor stub
-		this.b = b;
+		this.b = g.b;
 		addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent ce) {

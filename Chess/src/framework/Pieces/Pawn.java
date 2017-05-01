@@ -1,18 +1,19 @@
 package framework.Pieces;
 
 import framework.Board;
+import framework.Game;
 import framework.Move;
 import framework.PieceName;
 
 public class Pawn extends Piece {
 
-	public Pawn(PieceName name, int color, Board board) {
-		super(name, color, board);
+	public Pawn(PieceName name, int color, Game g, Board board) {
+		super(name, color, g, board);
 		// TODO Auto-generated constructor stub
 	}
 
-	public Pawn(PieceName name, int color, Board board, int x, int y, boolean moved) throws Exception {
-		super(name, color, board, x, y, moved);
+	public Pawn(PieceName name, int color, Game g, Board board, int x, int y, boolean moved) throws Exception {
+		super(name, color, g, board, x, y, moved);
 	}
 
 	@Override

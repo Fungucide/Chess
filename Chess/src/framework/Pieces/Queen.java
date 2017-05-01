@@ -1,18 +1,19 @@
 package framework.Pieces;
 
 import framework.Board;
+import framework.Game;
 import framework.Move;
 import framework.PieceName;
 
 public class Queen extends Piece {
 
-	public Queen(PieceName name, int color, Board board) {
-		super(name, color, board);
+	public Queen(PieceName name, int color, Game g, Board board) {
+		super(name, color, g, board);
 		// TODO Auto-generated constructor stub
 	}
 
-	public Queen(PieceName name, int color, Board board, int x, int y, boolean moved) throws Exception {
-		super(name, color, board, x, y, moved);
+	public Queen(PieceName name, int color, Game g, Board board, int x, int y, boolean moved) throws Exception {
+		super(name, color, g, board, x, y, moved);
 	}
 
 	@Override

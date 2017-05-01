@@ -1,6 +1,7 @@
 package framework.Pieces;
 
 import framework.Board;
+import framework.Game;
 import framework.Move;
 import framework.PieceName;
 
@@ -8,13 +9,13 @@ public class Rook extends Piece {
 
 	protected boolean moved = false;
 
-	public Rook(PieceName name, int color, Board board) {
-		super(name, color, board);
+	public Rook(PieceName name, int color, Game g, Board board) {
+		super(name, color, g, board);
 		// TODO Auto-generated constructor stub
 	}
 
-	public Rook(PieceName name, int color, Board board, int x, int y, boolean moved) throws Exception {
-		super(name, color, board, x, y, moved);
+	public Rook(PieceName name, int color, Game g, Board board, int x, int y, boolean moved) throws Exception {
+		super(name, color, g, board, x, y, moved);
 	}
 
 	@Override
