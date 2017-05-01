@@ -52,13 +52,7 @@ public abstract class Piece {
 			x = m.endX;
 			y = m.endY;
 
-			ArrayList<Move> pMoves = new ArrayList<>();
-			for (Piece p : currentBoard.TeamRefrence.get(this.COLOR * -1)) {
-				if (p.valid) {
-					pMoves.addAll(p.kingCheck());
-				}
-			}
-			Collections.sort(pMoves);
+			ArrayList<Move> pMoves = currentBoard.teamMove(COLOR * -1);
 
 			boolean flag = false;
 			for (Piece p : currentBoard.TeamRefrence.get(this.COLOR)) {

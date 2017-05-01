@@ -1,6 +1,7 @@
 package framework;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 import framework.Pieces.Piece;
@@ -40,6 +41,17 @@ public class Board {
 
 	public void removePiece(int x, int y) {
 		board[x][y] = null;
+	}
+
+	public ArrayList<Move> teamMove(int t) throws Exception {
+		ArrayList<Move> pMoves = new ArrayList<>();
+		for (Piece p : TeamRefrence.get(t)) {
+			if (p.valid) {
+				pMoves.addAll(p.kingCheck());
+			}
+		}
+		Collections.sort(pMoves);
+		return pMoves;
 	}
 
 }
